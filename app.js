@@ -24,6 +24,11 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
+//middleware to control navbar
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+});
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({
@@ -69,14 +74,14 @@ app.get("/", function (req, res) {
 
 //INDEX show all campgrounds
 app.get("/campground", function (req, res) {
- //   console.log(req.user);
+    -console.log(req.user);
     //get all campground from db
     Campground.find({}, function (err, allCampgrounds) {
         if (err) {
             console.log(err);
         } else {
             res.render("campgrounds/index", {
-                campgrounds: allCampgrounds
+                campgrounds: allCampgrounds,
             });
         }
     });
@@ -84,7 +89,7 @@ app.get("/campground", function (req, res) {
 });
 
 app.post("/campground", function (req, res) {
-  
+
     var name = req.body.name;
     var image = req.body.image;
     var desc = req.body.description;
@@ -125,7 +130,7 @@ app.get("/campground/:id", function (req, res) {
 //====================
 //COMMENTS ROUTES
 //====================
-app.get("/campground/:id/comments/new", function (req, res) {
+app.get("/campground/:id/comments/new", isLoggedIn, function (req, res) {
     //find campground by id
     Campground.findById(req.params.id, function (err, campground) {
         if (err) {
@@ -139,7 +144,7 @@ app.get("/campground/:id/comments/new", function (req, res) {
 
 });
 
-app.post("/campground/:id/comments",isLoggedIn, function (req, res) {
+app.post("/campground/:id/comments", function (req, res) {
     //lookup campground using ID
     Campground.findById(req.params.id, function (err, campground) {
         if (err) {
@@ -203,13 +208,13 @@ app.post("/login", passport.authenticate("local", {
 });
 
 //logout route
-app.get("/logout",function(req,res){
+app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/campground");
 })
 
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect("/login");
