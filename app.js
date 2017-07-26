@@ -12,8 +12,8 @@ var seedDB = require("./seeds");
 var commentRoutes=require("./routes/comments"),
     campgroundRoutes=require("./routes/campgrounds");
     indexRoutes=require("./routes/index");
-seedDB();
-
+/*seedDB();*/
+//seed the database
 //passport config
 app.use(require("express-session")({
     secret: "rusty is adorable dog",

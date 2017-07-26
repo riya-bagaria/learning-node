@@ -23,6 +23,7 @@
                         <p>
                             <%= campground.description %>
                         </p>
+                        <p><em>Submitted by:<%= campground.author.username %></em></p>
                     </div>
 
                 </div>
@@ -31,18 +32,18 @@
                         <a href="/campground/<%= campground._id %>/comments/new" class="btn btn-success">Add New Comments</a>
                         <hr>
                     </div>
-                      <% campground.comments.forEach(function(comment){ %>
-        <div class="row">
-            <div class="col-md-12">
-                <strong><%= comment.author %></strong>
-                    <span class="pull-right">10 days ago</span>
-                    <p>
+                    <% campground.comments.forEach(function(comment){ %>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong><%= comment.author.username %></strong>
+                                <span class="pull-right">10 days ago</span>
+                                <p>
 
-                        <%= comment.text %>
-                    </p>
-            </div>
-        </div>
-          <% }) %>
+                                    <%= comment.text %>
+                                </p>
+                            </div>
+                        </div>
+                        <% }) %>
                 </div>
             </div>
         </div>
@@ -52,7 +53,7 @@
 
 
 
-  
 
-      
-            <% include ../partials/footer %>
+
+
+    <% include ../partials/footer %>
