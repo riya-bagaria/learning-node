@@ -3,7 +3,7 @@ var router=express.Router();
 var Campground=require("../models/campground");
 //INDEX show all campgrounds
 router.get("/", function (req, res) {
-    -console.log(req.user);
+    console.log(req.user);
     //get all campground from db
     Campground.find({}, function (err, allCampgrounds) {
         if (err) {
