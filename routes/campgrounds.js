@@ -63,7 +63,9 @@ router.get("/:id", function (req, res) {
         }
     });
 });
-
+//edit campground route
+router.get
+//update campground route
 
 
 //middleware
